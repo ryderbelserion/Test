@@ -39,7 +39,17 @@ jobs:
       - name: Verify Gradle Wrapper
         run: ./gradlew --help
 
-      - name: Create Pull Request (Optional)
+      - name: Check for diff
+        id: diff_check
+        run: |
+          if git diff --exit-code main ${{ github.ref_name }} > /dev/null; then
+            echo "::set-output name=has_diff::false"
+          else
+            echo "::set-output name=has_diff::true"
+          fi
+
+      - name: Create Pull Request
+        if: steps.diff_check.outputs.has_diff == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.generate-token.outputs.token }}
