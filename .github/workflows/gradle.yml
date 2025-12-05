@@ -49,11 +49,11 @@ jobs:
           fi
 
       - name: Pull Request Aborted
-        if: ${{ steps.validation.outputs.has_changes == 'false' }}
+        if: ${{ steps.validation.outputs.has_changes == 'true' }}
         run: echo 'The pull request was not created, because no changes were detected!'
 
       - name: Create Pull Request
-        if: ${{ steps.validation.outputs.has_changes == 'true' }}
+        if: ${{ steps.validation.outputs.has_changes == 'false' }}
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.generate-token.outputs.token }}
