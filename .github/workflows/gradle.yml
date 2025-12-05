@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.TOKEN }}
 
 #      - name: Import GPG key
 #        uses: crazy-max/ghaction-import-gpg@v6
