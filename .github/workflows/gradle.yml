@@ -17,20 +17,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
-      - uses: crazy-max/ghaction-import-gpg@v5
+      - uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
-
-#      - name: Import GPG key
-#        uses: crazy-max/ghaction-import-gpg@v6
-#        with:
-#          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-#          passphrase: ${{ secrets.PASSPHRASE }}
-#          git_user_signingkey: true
-#          git_commit_gpgsign: true
 
       - name: Setup Java
         uses: actions/setup-java@v5
@@ -38,30 +30,14 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      #- name: Get Branch Name
-      #  id: date
-      #  run: echo "::set-output name=today::$(date +'%Y-%m-%d')"
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-      #- name: Create Branch
-      #  run: |
-      #    git config user.name 'Ryder Belserion'
-      #    git config user.email 'no-reply@ryderbelserion.com'
-      #    git checkout -b gradle-wrapper-update-${{ steps.date.outputs.today }}
+      - name: Update Gradle Wrapper
+        run: ./gradlew wrapper --gradle-version latest
 
-      #- name: Make gradlew executable
-      #  run: chmod +x ./gradlew
-
-      #- name: Update Gradle Wrapper
-      #  run: ./gradlew wrapper --gradle-version latest
-
-      #- name: Verify Gradle Wrapper
-      #  run: ./gradlew --help
-
-      #- name: Commit and push changes
-      #  run: |
-      #    git add .
-      #    git commit -m "Update Gradle Wrapper to latest version"
-      #    git push origin gradle-wrapper-update-${{ steps.date.outputs.today }}
+      - name: Verify Gradle Wrapper
+        run: ./gradlew --help
 
       - name: Create Pull Request (Optional)
         uses: peter-evans/create-pull-request@v7
