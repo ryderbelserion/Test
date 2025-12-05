@@ -39,14 +39,18 @@ jobs:
       - name: Verify Gradle Wrapper
         run: ./gradlew --help
 
-      - name: Change Validation
+      - name: Git Tracker
         id: validation
         run: |
-          if git diff --exit-code main ${{ github.ref_name }} > /dev/null; then
-            echo "{is_ready}=false" >> $GITHUB_OUTPUT
+          if git diff --quiet main "${{ github.ref_name }}"; then
+            echo "is_ready=false" >> "$GITHUB_OUTPUT"
           else
-            echo "{is_ready}=true" >> $GITHUB_OUTPUT
+            echo "is_ready=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Pull Request Aborted
+        if: steps.validation.outputs.is_ready == 'false'
+        run: echo 'The pull request was not created, because no changes were detected!'
 
       - name: Create Pull Request
         if: steps.validation.outputs.is_ready == 'true'
