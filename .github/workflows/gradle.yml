@@ -42,7 +42,7 @@ jobs:
       - name: Git Tracker
         id: validation
         run: |
-          if ! git diff-index --quiet HEAD; then
+          if git diff --exit-code gradle/wrapper/gradle-wrapper.properties; then
             echo "has_changes=true" >> $GITHUB_OUTPUT
           else
             echo "has_changes=false" >> $GITHUB_OUTPUT
