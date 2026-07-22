@@ -1,0 +1,65 @@
+---
+title: Patterns
+description: Examples of how to use color/patterns on shields/banners!
+
+slug: mods/crazycrates/reference/prizes/items/tools/patterns
+---
+import { Aside, Tabs } from "@astrojs/starlight/components";
+
+import TabCard from "@/components/other/TabCard.astro";
+
+<Aside type="tip">
+    Pattern Keys: [Click Me](https://jd.papermc.io/paper/io/papermc/paper/registry/keys/BannerPatternKeys.html) `Description` is the field with the valid names, Make sure to remove `minecraft:` while adding to config.
+
+    Colors: [Click Me](https://jd.papermc.io/paper/org/bukkit/DyeColor.html), `Field` are the valid colors.
+
+    These links will automatically send you to the latest version of Paper javadocs.
+</Aside>
+
+<Tabs>
+    <TabCard label="Display">
+        ```yml
+        # The crate section.
+        Crate:
+          # The prizes section.
+          Prizes:
+            "1":
+              # The material of the item.
+              DisplayItem: 'shield'
+              # The patterns to display on the shield.
+              DisplayPatterns:
+                - "base:white"
+                - "gradient_up:light_gray"
+                - "straight_cross:light_blue"
+                - "flower:light_blue"
+        ```
+    </TabCard>
+
+    <TabCard label="Item">
+        ```yml
+        # The crate section.
+        Crate:
+          # The prizes section.
+          Prizes:
+            # The name of the prize, good for identification internally and externally.
+            "1":
+              # The material of the item.
+              DisplayItem: 'shield'
+              # Configure multiple items with whatever you want.
+              Items:
+                # The name of the item, good for identification internally and externally.
+                "1":
+                  # The material of the item.
+                  material: "shield"
+                  # Extra options to configure the items in this pool.
+                  settings:
+                    # The patterns to display on the shield.
+                    patterns:
+                      base: white
+                      gradient_up: light_gray
+                      straight_cross: light_blue
+                      flower: light_blue
+                      half_horizontal: 255,0,0
+        ```
+    </TabCard>
+</Tabs>

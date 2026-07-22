@@ -1,0 +1,81 @@
+---
+import { Icon } from '@astrojs/starlight/components';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'title'> {
+    icon?: keyof typeof Icon;
+    title: string;
+    border: string;
+    bg: string;
+}
+
+const { icon, title, border, bg, ...attributes} = Astro.props;
+---
+<a {...attributes} class="card">
+    <article class="sl-flex">
+        <p class="title sl-flex">
+            {icon && <Icon name={icon} class="icon" size="1.333em" />}
+
+            <span set:html={title} />
+        </p>
+
+        <div class="body">
+            <slot/>
+        </div>
+    </article>
+</a>
+
+<style define:vars={{ border, bg }}>
+    .card {
+        --sl-card-border: var(--border);
+        --sl-card-bg: var(--bg);
+
+        border: 1px solid var(--sl-color-gray-5);
+        background-color: var(--sl-color-black);
+        padding: clamp(1rem, calc(0.125rem + 3vw), 2.5rem);
+        border-radius: 0.25rem;
+        text-decoration: none;
+        transition:
+                border-color 0.3s ease,
+                background-color 0.3s ease,
+                box-shadow 0.3s ease;
+    }
+
+    .card article {
+        flex-direction: column;
+        gap: calc(clamp(0.5rem, calc(0.125rem + 1vw), 1rem) / 2);
+    }
+
+    .card:hover {
+        border-color: var(--sl-card-border);
+        background-color: var(--sl-card-bg);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .title {
+        font-weight: 600;
+        font-size: var(--sl-text-h4);
+        line-height: var(--sl-line-height-headings);
+        gap: 1rem;
+        align-items: center;
+        color: var(--sl-color-white);
+    }
+
+    .card-destructive .warning-icon {
+        color: var(--sl-color-red);
+    }
+
+    .card .icon {
+        border: 1px solid var(--sl-card-border);
+        background-color: var(--sl-card-bg);
+        padding: 0.2em;
+        border-radius: 0.25rem;
+    }
+
+    .card .body {
+        margin-top: 0.5rem;
+        font-size: clamp(var(--sl-text-sm), calc(0.5rem + 1vw), var(--sl-text-body));
+        color: var(--sl-color-gray-3);
+        transition: color 0.3s ease;
+    }
+</style>
