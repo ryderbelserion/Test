@@ -9,7 +9,7 @@ import vue from '@astrojs/vue';
 
 // https://astro.build/config
 export default defineConfig({
-    site: 'https://docs.crazycrew.us',
+    site: 'https://ryderbelserion.github.io',
 
     //adapter: cloudflare(),
 
